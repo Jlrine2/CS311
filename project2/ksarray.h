@@ -40,7 +40,6 @@ private:
     }
 public:
 
-
     //default ctor
     KSArray(): 
     _size(8), 
@@ -49,7 +48,7 @@ public:
 
     //ctor with size param
     //pre:
-    //s param is a positive intager
+    //s param is a positive int
     KSArray(int s): 
     _size(s), 
     _arrPtr(new value_type[s]){
@@ -57,7 +56,7 @@ public:
 
     //ctor with size and fill param
     //pre:
-    //s param is a positive integer type
+    //s param is a positive int 
     KSArray(int s, value_type fill): 
     _size(s), 
     _arrPtr(new value_type[s]) {
@@ -146,8 +145,13 @@ public:
    
 };
     
-    //comarison operators
-    //lexigraphical comparison this is < other
+    //*********************************************
+    //      GLOBAL COMPARISON FUNCTIONS
+    //*********************************************
+
+
+
+    //lexigraphical comparison < operator
     //pre:
     // t must have a definition for operator <
     template<typename t>
