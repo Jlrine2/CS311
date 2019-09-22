@@ -57,7 +57,7 @@ public:
     //ctor with size and fill param
     //pre:
     //s param is a positive int 
-    KSArray(int s, value_type fill): 
+    KSArray(int s, const value_type & fill): 
     _size(s), 
     _arrPtr(new value_type[s]) {
         std::fill(_arrPtr, _arrPtr + _size, fill);
@@ -82,7 +82,7 @@ public:
     //other must be an R value, it will be changed
     //end: other will be trashed
     //other will be trashed
-    KSArray( KSArray && other) noexcept
+    KSArray(KSArray && other) noexcept
     :_size(other.size()),
     _arrPtr(other._arrPtr){
         other._arrPtr = nullptr;
@@ -93,7 +93,7 @@ public:
     //other must be an R value, it will be changed
     //end: other will be trashed
     //other will be trashed
-    KSArray & operator = ( KSArray && other) noexcept{
+    KSArray & operator = (KSArray && other) noexcept{
         mswap(other);
         return *this;
     }
