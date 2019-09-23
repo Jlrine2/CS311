@@ -60,7 +60,7 @@ public:
     KSArray(int s, const value_type & fill): 
     _size(s), 
     _arrPtr(new value_type[s]) {
-        std::fill(_arrPtr, _arrPtr + _size, fill);
+        std::fill(begin(), end(), fill);
     }
 
     //Copy ctor
