@@ -13,6 +13,7 @@
 #define FILE_DP3_H_INCLUDED
 
 #include <cstddef>     // For std::size_t
+#include <algorithm>
 #include <functional>  // For std::function
 
 
@@ -82,7 +83,6 @@ template <typename ValueType>
 ValueType lookup(const LLNode<ValueType> * head,
                  std::size_t index)
 {
-
     //empty list check
     if (head==nullptr) 
         throw std::out_of_range("index out of range");
@@ -120,25 +120,33 @@ template <typename FDIter>
 bool checkSorted(FDIter first,
                  FDIter last)
 {
-    //empty list check
-    if (first == last){
-        return true;
-    }
+    //*************************************************************************
+    //     I've used a standard library function to solve this problem,      **
+    //     but also included a version of my own writing commented below     **
+    //     to demonstrate knowledge and understanding of the excersise.      **
+    //*************************************************************************
 
-    FDIter current = first;
-    FDIter next = current;
-    ++next;
+    // //empty list check
+    // if (first == last){
+    //     return true;
+    // }
+
+    // FDIter current = first;
+    // FDIter next = current;
+    // ++next;
 
     
-    while (next != last){
-        if (*next < *current){
-            return false;
-        }
-        ++current;
-        ++next;
-    }
+    // while (next != last){
+    //     if (*next < *current){
+    //         return false;
+    //     }
+    //     ++current;
+    //     ++next;
+    // }
 
-    return true; 
+    // return true; 
+
+    return std::is_sorted(first, last);
 }
 
 
