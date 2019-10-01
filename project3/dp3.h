@@ -126,26 +126,27 @@ bool checkSorted(FDIter first,
     //     to demonstrate knowledge and understanding of the excersise.      **
     //*************************************************************************
 
-    // //empty list check
-    // if (first == last){
-    //     return true;
-    // }
+/* 
+    //empty list check
+    if (first == last){
+        return true;
+    }
 
-    // FDIter current = first;
-    // FDIter next = current;
-    // ++next;
+    FDIter current = first;
+    FDIter next = current;
+    ++next;
 
     
-    // while (next != last){
-    //     if (*next < *current){
-    //         return false;
-    //     }
-    //     ++current;
-    //     ++next;
-    // }
+    while (next != last){
+        if (*next < *current){
+            return false;
+        }
+        ++current;
+        ++next;
+    }
 
-    // return true; 
-
+    return true; 
+*/
     return std::is_sorted(first, last);
 }
 
