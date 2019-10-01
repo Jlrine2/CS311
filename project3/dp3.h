@@ -83,6 +83,7 @@ ValueType lookup(const LLNode<ValueType> * head,
                  std::size_t index)
 {
 
+    //empty list check
     if (head==nullptr) 
         throw std::out_of_range("index out of range");
     
@@ -107,7 +108,7 @@ void didItThrow(const std::function<void()> & ff,
 
 
 
-// checkSorted will return true if function is sorted by < completely
+// checkSorted will return true if list is sorted by < completely
 // 
 // Requirements on type:
 // FDIter must be an iterator that can be forwardly incremented (with ++)
@@ -119,6 +120,7 @@ template <typename FDIter>
 bool checkSorted(FDIter first,
                  FDIter last)
 {
+    //empty list check
     if (first == last){
         return true;
     }
@@ -127,6 +129,7 @@ bool checkSorted(FDIter first,
     FDIter next = current;
     ++next;
 
+    
     while (next != last){
         if (*next < *current){
             return false;
@@ -135,7 +138,7 @@ bool checkSorted(FDIter first,
         ++next;
     }
 
-    return true;  
+    return true; 
 }
 
 
