@@ -19,7 +19,7 @@
 
 #ifdef __clang__
 #    pragma clang system_header
-#elif defined __GNUC__gg
+#elif defined __GNUC__
 #    pragma GCC system_header
 #endif
 
