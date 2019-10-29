@@ -72,7 +72,10 @@ public:
                  std::copy(other.begin(), other.end(), begin()); // may throw
              }
             catch(...) {
-                this -> ~TSSArray();
+                delete [] _data;
+                _capacity = 0;
+                _size = 0;
+                _data = nullptr;
                 throw;
             }
         }
@@ -104,7 +107,10 @@ public:
             swap(copy); //will not throw
         }
         catch(...){
-            this -> ~TSSArray();
+            delete [] _data;
+            _capacity = 0;
+            _size = 0;
+            _data = nullptr;
             throw;
         }
         return *this;
@@ -185,7 +191,14 @@ public: //REMOVE ME!!!!!!!!!!!!!!!!!!!!!!!!!!!
         TSSArray copy(newsize);
         //move values to copy may throw
         try { std::copy(begin(), end(), copy.begin()); }
-        catch(...) {this -> ~TSSArray(); throw;}
+        catch(...) {
+            delete [] _data;
+            _capacity = 0;
+            _size = 0;
+            _data = nullptr;
+            throw;
+        }
+
         swap(copy);
     }
 
@@ -193,23 +206,38 @@ public: //REMOVE ME!!!!!!!!!!!!!!!!!!!!!!!!!!!
     // Basic Guarantee
     iterator insert(iterator pos,
                     const value_type & item){
+        //incase we reallocate and copy
+        size_type index = pos - _data;
+
         push_back(item);
-        std::rotate(pos, end(), end());
+
+        iterator newpos = index + _data;
+
+        std::rotate(newpos, end() - 1, end());
+
+        return newpos;
     }
 
     // erase
     // Basic Guarantee
     iterator erase(iterator pos){
-        std::rotate(pos, pos+1, end());
-
+        std::rotate(pos, pos + 1, end());
+        pop_back();
+        return pos;
     }
 
     // push_back
     // Basic Guarantee
-    void push_back(value_type item)
+    void push_back(const value_type & item)
     {
         resize(size() + 1);
+        try {
         *(end()-1) = item;
+        }
+        catch(...) {
+            this -> ~TSSArray();
+            throw;
+        }
     }
 
     // pop_back
