@@ -195,7 +195,7 @@ public: //REMOVE ME!!!!!!!!!!!!!!!!!!!!!!!!!!!
             delete [] _data;
             _capacity = 0;
             _size = 0;
-            _data = nullptr;
+            //_data = nullptr;
             throw;
         }
 
