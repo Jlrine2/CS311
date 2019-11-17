@@ -22,60 +22,43 @@
 
 
 template<typename ValueType>
-class BinarySearchTree{
-public:
-    ///no default ctor must take data param
-    BinarySearchTree() = delete;
-
-    //default dctor
-    ~BinarySearchTree() = default;
-
-    //take a object to store in the root node
-    BinarySearchTree(const ValueType & headData):
-        data(headData),
-        {}
-
-    //delete copy and move ctor and assignment
-    BinarySearchTree(const BinarySearchTree & other) = delete;
-    BinarySearchTree & operator=(const BinarySearchTree & rhs) = delete;
-
-    BinarySearchTree(const BinarySearchTree && other) = delete;
-    BinarySearchTree & operator=(const BinarySearchTree && rhs) = delete;
-
-public:
-    
-    void insert(const ValueType & dataToInsert){
-        if (dataToInsert < data){
-            insertToGreaterChild(dataToInsert);
-        }
-        else{
-            insertToLessChild(dataToInsert);
-        }
-    }
-
-
-private:
-
-    void insertToGreaterChild(const ValueType & dataToInsert){
-        if (greaterChildTree) {
-            return greaterChildTree -> insert(dataToInsert);
-        }
-        greaterChildTree = std::make_unique<BinarySearchTree<ValueType>>(dataToInsert);
-    }
-
-    void insertToLessChild(const ValueType & dataToInsert) {
-        if (greaterChildTree) {
-            return greaterChildTree -> insert(dataToInsert);
-        }
-        greaterChildTree = std::make_unique<BinarySearchTree<ValueType>>(dataToInsert);
-    }
-
-    //private data members
-    std::unique_ptr<BinarySearchTree<ValueType>> lessChildTree;
-    std::unique_ptr<BinarySearchTree<ValueType>> greaterChildTree;
+struct treeNode
+{
+    std::unique_ptr<treeNode<ValueType>> greaterChildTree;
+    std::unique_ptr<treeNode<ValueType>> lessChildTree;
     ValueType data;
+    
+    
+    treeNode(const ValueType & data):
+    data(data)
+    {}
+
+    ~treeNode() = default;
+
+    treeNode() = default;
+
+    //delete copy and move operations
+    treeNode(const treeNode & other) = delete;
+    treeNode(const treeNode && other) = delete;
+    treeNode & operator=(const treeNode & lhs) = delete;
+    treeNode & operator=(const treeNode && lhs) = delete;
+
 };
 
+
+template<typename ValueType>
+void insertTree(std::unique_ptr<treeNode<ValueType>> & tree,const ValueType & dataToInsert) {
+    if (!tree) {
+        tree = std::make_unique<treeNode<ValueType>>(dataToInsert);
+        return;
+    }
+    if (tree ->data < dataToInsert) {
+        insertTree(tree -> greaterChildTree, dataToInsert);
+    }
+    else {
+        insertTree(tree -> lessChildTree, dataToInsert);
+    }
+}
 
 // treesort
 // Sort a given range using Treesort.
@@ -92,12 +75,11 @@ void treesort(FDIter first, FDIter last)
     // ValType is the type that FDIter points to
     using ValueType = typename std::iterator_traits<FDIter>::value_type;
 
-    BinarySearchTree<ValueType> BSTree(*first);
-    auto it = first;
-    ++it;
-    for (it; it != last; ++it) {
-        BSTree.insert(*it);
+    std::unique_ptr<treeNode<ValueType>> head;
+    for (FDIter it = first; it != last; ++it) {
+        insertTree(head, *it);
     }
+
     
     // THE FOLLOWING IS DUMMY CODE. IT WILL PASS ALL TESTS, BUT IT DOES
     // NOT MEET THE REQUIREMENTS OF THE PROJECT.
